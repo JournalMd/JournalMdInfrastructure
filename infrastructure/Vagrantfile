@@ -1,0 +1,73 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ssh_key = ENV.fetch('JOURNALMD_SSH_KEY', "#{Dir.home}/.ssh/id_rsa")
+repository_dir_web = ENV.fetch('JOURNALMD_REPOSITORY', "#{Dir.home}/code/JournalMd/JournalMdServer/ClientApp")
+repository_dir_server = ENV.fetch('JOURNALMD_REPOSITORY', "#{Dir.home}/code/JournalMd/JournalMdServer")
+
+Vagrant.configure("2") do |config|
+  # Official Ubuntu 18.04 LTS (Bionic Beaver) Daily Build
+  config.vm.box = "ubuntu/bionic64"
+
+  config.vm.network "private_network", ip: "192.168.10.10"
+  config.vm.network "forwarded_port", guest: 3000, host: 8300 
+  config.vm.network "forwarded_port", guest: 3306, host: 8306 
+
+  config.vm.synced_folder "#{repository_dir_web}", "/var/www/journalmd-web" , owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=764"]
+  config.vm.synced_folder "#{repository_dir_server}", "/var/www/journalmd-server" , owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=764"]
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 3072
+    vb.cpus = 3
+  end
+
+  config.vm.post_up_message = "Welcome to JournalMd development environment"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)
+  SHELL
+
+  # https://stackoverflow.com/questions/30075461/how-do-i-add-my-own-public-key-to-vagrant-vm
+  config.vm.provision "shell" do |s|
+    ssh_prv_key = ""
+    ssh_pub_key = ""
+    if File.file?("#{ssh_key}")
+      ssh_prv_key = File.read("#{ssh_key}")
+      ssh_pub_key = File.readlines("#{ssh_key}.pub").first.strip
+    else
+      puts "No SSH key found. You will need to remedy this before pushing to the repository."
+    end
+    s.inline = <<-SHELL
+      if grep -sq "#{ssh_pub_key}" /home/vagrant/.ssh/authorized_keys; then
+        echo "SSH keys already provisioned."
+        exit 0;
+      fi
+      echo "SSH key provisioning."
+      mkdir -p /home/vagrant/.ssh/
+      touch /home/vagrant/.ssh/authorized_keys
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+      echo #{ssh_pub_key} > /home/vagrant/.ssh/id_rsa.pub
+      chmod 644 /home/vagrant/.ssh/id_rsa.pub
+      echo "#{ssh_prv_key}" > /home/vagrant/.ssh/id_rsa
+      chmod 600 /home/vagrant/.ssh/id_rsa
+      chown -R vagrant:vagrant /home/vagrant
+      exit 0
+    SHELL
+  end
+
+  config.vm.provision "ansible" do |ansible|
+#    ansible.playbook = "vagrant.yml"
+    ansible.playbook = "site.yml"
+    ansible.config_file = "ansible.cfg"
+    ansible.inventory_path = "inventories/vagrant"
+    ansible.verbose = "v"
+#    ansible.limit = "192.168.10.10"
+    ansible.limit = "vagrant"
+  end
+
+#  config.trigger.after :up do |trigger|
+#      trigger.run_remote = { inline: "systemctl restart pm2-root" }
+#  end
+
+end

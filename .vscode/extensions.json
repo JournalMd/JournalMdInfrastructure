@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "wholroyd.jinja",
+        "davidanson.vscode-markdownlint",
+        "vscoss.vscode-ansible",
+        "bbenoist.vagrant"
+    ]
+}

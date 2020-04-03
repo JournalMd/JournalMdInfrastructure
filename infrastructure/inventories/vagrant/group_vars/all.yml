@@ -1,0 +1,5 @@
+---
+# common
+
+# dotnet
+dotnet_package: "dotnet-sdk-3.1"
