@@ -1,6 +1,0 @@
----
-- name: Dotnet Installation
-  hosts: dotnet
-  become: true
-  roles:
-    - ocha.dotnet-core
