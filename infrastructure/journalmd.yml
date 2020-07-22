@@ -1,14 +1,4 @@
 ---
-- name: base installation
-  hosts: journalmd
-  become: true
-  roles:
-    - geerlingguy.mysql
-    - geerlingguy.nodejs
-    - ocha.yarn
-    - ocha.dotnet-core
-    - geerlingguy.nginx
-
 - name: journalmd installation
   hosts: journalmd
   become: true

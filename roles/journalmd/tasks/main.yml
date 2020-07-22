@@ -1,4 +1,0 @@
----
-- include: copy_code.yml
-- include: mysql_create.yml
-- include: journalmd_install.yml

@@ -1,26 +1,11 @@
-# from galaxy
-- src: ocha.dotnet-core
-  name: ocha.dotnet-core
-
-# - src: geerlingguy.nginx
-#   name: geerlingguy.nginx
-# - src: geerlingguy.nodejs
-#   name: geerlingguy.nodejs
-# - src: geerlingguy.mysql
-#   name: geerlingguy.mysql
 # - src: uzer.crontab
 #   name: uzer.crontab
 # - src: ocha.yarn
 #   name: ocha.yarn
-# - src: mrlesmithjr.netdata
-#   name: mrlesmithjr.netdata
 # - src: oefenweb.fail2ban
 #   name: oefenweb.fail2ban
 # - src: arillso.logrotate
 #   name: arillso.logrotate
-# # https://github.com/tag1consulting/ansible-role-borgbackup/issues/9
-# - src: tag1consulting.borgbackup
-#   name: fiaasco.borgbackup
 
-# - src: geerlingguy.postgresql
-# - src: Duologic.postgresql_repository
+- name: "journalmd" # name: "JournalMd.journalmd"
+  src: "https://github.com/JournalMd/ansible-role-journalmd.git"
