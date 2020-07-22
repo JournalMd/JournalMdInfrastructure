@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 ssh_key = ENV.fetch('JOURNALMD_SSH_KEY', "#{Dir.home}/.ssh/id_rsa")
-repository_dir_web = ENV.fetch('JOURNALMD_REPOSITORY_CLIENT', "#{Dir.home}/code/JournalMdClientWeb")
+repository_dir_clientweb = ENV.fetch('JOURNALMD_REPOSITORY_CLIENT', "#{Dir.home}/code/JournalMdClientWeb")
 repository_dir_server = ENV.fetch('JOURNALMD_REPOSITORY_SERVER', "#{Dir.home}/code/JournalMdServer")
 
 Vagrant.configure("2") do |config|
@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 8300 
   config.vm.network "forwarded_port", guest: 3306, host: 8306 
 
-  config.vm.synced_folder "#{repository_dir_web}", "/var/www/journalmd-frontend" , owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=764"]
+  config.vm.synced_folder "#{repository_dir_clientweb}", "/var/www/journalmd-clientweb" , owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=764"]
   config.vm.synced_folder "#{repository_dir_server}", "/var/www/journalmd-server" , owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=764"]
 
   config.vm.provider "virtualbox" do |vb|
