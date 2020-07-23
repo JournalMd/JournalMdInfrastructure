@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 ssh_key = ENV.fetch('JOURNALMD_SSH_KEY', "#{Dir.home}/.ssh/id_rsa")
-repository_dir_clientweb = ENV.fetch('JOURNALMD_REPOSITORY_CLIENT', "#{Dir.home}/code/JournalMdClientWeb")
-repository_dir_server = ENV.fetch('JOURNALMD_REPOSITORY_SERVER', "#{Dir.home}/code/JournalMdServer")
+repository_dir_clientweb = ENV.fetch('JOURNALMD_REPOSITORY_CLIENT', "#{Dir.home}/code/journalmd/JournalMdClientWeb")
+repository_dir_server = ENV.fetch('JOURNALMD_REPOSITORY_SERVER', "#{Dir.home}/code/journalmd/JournalMdServer")
 
 Vagrant.configure("2") do |config|
   # Official Ubuntu 20.04 LTS (Focal Fossa) Daily Build
