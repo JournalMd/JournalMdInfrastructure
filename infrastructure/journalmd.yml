@@ -1,4 +1,11 @@
 ---
+- name: journalmd dependencies installation
+  hosts: journalmd
+  become: true
+  roles:
+    - geerlingguy.mysql
+    - geerlingguy.nginx
+
 - name: journalmd installation
   hosts: journalmd
   become: true
