@@ -1,11 +1,10 @@
 # - src: uzer.crontab
-#   name: uzer.crontab
 # - src: ocha.yarn
-#   name: ocha.yarn
 # - src: oefenweb.fail2ban
-#   name: oefenweb.fail2ban
 # - src: arillso.logrotate
-#   name: arillso.logrotate
+
+- src: geerlingguy.mysql
+- src: geerlingguy.nginx
 
 - name: "journalmd" # name: "JournalMd.journalmd"
   src: "https://github.com/JournalMd/ansible-role-journalmd.git"
