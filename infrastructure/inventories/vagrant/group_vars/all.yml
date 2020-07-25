@@ -2,6 +2,14 @@
 # common
 
 # journalmd
+journalmd_name: journalmd
+journalmd_web_server_name: 192.168.10.10 # my.journal-md.com
+journalmd_clientweb_dir: /var/www/journalmd-clientweb
+journalmd_clientweb_api_location: http://{{journalmd_web_server_name}}:8500/api/
+journalmd_server_dir: /var/www/journalmd-server
+journalmd_server_secret: CHANGEMEvagrant12345678901234567890xyz
+journalmd_server_aspnetcore_urls: https://localhost:5001;http://localhost:5000
+journalmd_mysql_server: 127.0.0.1
 
 # geerlingguy.mysql
 mysql_port: "3306"
